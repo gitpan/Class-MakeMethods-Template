@@ -1,0 +1,131 @@
+=head1 NAME
+
+Class::MakeMethods::Template::ReadMe - About this Module
+
+
+=head1 SYNOPSIS
+
+  package MyObject;
+  use Class::MakeMethods::Template::Hash (
+    'new'       => 'new',
+    'string'    => 'foo',
+    'number'    => 'bar',
+  );
+  
+  package main;   
+ 
+  my $obj = MyObject->new( foo => "Foozle", bar => 23 );
+  print $obj->foo();
+  $obj->bar(42);
+
+
+=head1 DESCRIPTION
+
+This module extends the Class::MakeMethods framework by providing an abstract superclass for extensible code-templating method generators.
+
+Common types of methods are generalized into B<template definitions>.
+For example, C<Template::Generic>'s C<new> provides a template for
+methods that create object instances, while C<Template::Generic>'s
+C<scalar> is a template for methods that allow you to get and set
+individual scalar values.
+
+Thse definitions are then re-used and modified by various
+B<template subclasses>. For example, the C<Template::Hash>
+subclass supports blessed-hash objects, while the C<Template::Static>
+subclass supports shared data; each of them includes an appropriate
+version of the C<scalar> accessor template for those object types.
+
+Each template defines one or more B<behaviors>, individual
+methods which can be installed in a calling package, and B<interfaces>,
+which select from those behaviours and indicate the names to install
+the methods under.
+
+Each individual meta-method defined by a calling package requires
+a B<method name>, and may optionally include other key-value
+B<parameters>, which can control the operation of some meta-methods.
+
+=head2 Prerequisites
+
+Requires Class::MakeMethods 1.003.
+
+=head2 Tested Platforms
+
+This release has been tested succesfully on the following platforms:
+
+  5.6.1 on darwin
+
+You may also review the current test results from CPAN-Testers:
+
+  http://testers.cpan.org/search?request=dist&dist=Class-MakeMethods
+
+=head1 VERSION
+
+This is version 1.003 of Class::MakeMethods::Template. 
+
+
+=head1 INSTALLATION
+
+You should be able to install this module using the CPAN shell interface:
+
+  perl -MCPAN -e 'install Class::MakeMethods::Template'
+
+If this module has not yet been posted to your local CPAN mirror,
+you may also retrieve the current distribution from the below
+address and follow the normal "gunzip", "tar xf", "cd", "perl Makefile.PL && make test && sudo make install" procedure or your local equivalent:
+
+  http://www.evoscript.org/Class-MakeMethods/
+
+
+
+=head1 SEE ALSO
+
+See L<Class::MakeMethods> for an overview of the framework this fits into, and the general calling conventions for C<use> and C<make>.
+
+See L<Class::MakeMethods::Template> for discussion of the code generation features.
+
+If you have used Class::MethodMaker, you will note numerous
+similarities. Backward compatibility and conversion documentation
+is provded in L<Class::MakeMethods::Emulator::MethodMaker>, available
+in a separate distribution on CPAN.
+
+
+=head1 CREDITS AND COPYRIGHT
+
+=head2 Developed By
+
+  M. Simon Cavalletto, simonm@cavalletto.org
+  Evolution Softworks, www.evoscript.org
+
+=head2 Source Material
+
+Inspiration, cool tricks, and blocks of useful code for this module
+were extracted from the following CPAN modules:
+
+  Class::MethodMaker, by Peter Seibel.
+
+=head2 Feedback and Suggestions 
+
+Thanks to:
+
+  Martyn J. Pearce
+  Scott R. Godin
+  Ron Savage
+  Jay Lawrence
+  Adam Spiers
+  Terrence Brannon
+
+=head2 Copyright
+
+Copyright 2002 Matthew Simon Cavalletto. 
+
+Portions copyright 1998, 1999, 2000, 2001 Evolution Online Systems, Inc.
+
+Portions copyright 1996 Organic Online.
+
+Portions copyright 2000 Martyn J. Pearce.
+
+=head2 License
+
+You may use, modify, and distribute this software under the same terms as Perl.
+
+=cut

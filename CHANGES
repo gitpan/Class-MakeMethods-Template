@@ -1,0 +1,9 @@
+NAME
+    Class::MakeMethods::Template::Changes - Revision history
+
+DESCRIPTION
+    Revision history for Class::MakeMethods::Template:
+
+    v1.003 - 2002/01/24
+        Split Template and Emulator packages into their own distributions.
+

@@ -1,0 +1,162 @@
+NAME
+    Class::MakeMethods::Template::ToDo - Ideas, problems, and suggestions
+
+SYNOPSIS
+    There are lots of things that could be done to improve
+    Class::MakeMethods::Template and its subclasses.
+
+  Documentation
+
+    *   Finish overhauling Template documentation.
+
+    *   Include Static and Flyweight uses in the EXAMPLES section
+
+    *   Template Internals: Finish documenting the Template mechanism.
+
+    *   Template Internals: Finish documenting disk-based meta-method
+        code-caching.
+
+  Template::Generic
+
+    *   Make instance a template of object.
+
+    *   Allow untyped object accesors if "class" attribute is not set.
+        (Suggested in Jan-01 NY Perl Seminar discussion.)
+
+    *   Standardize naming templates for array, hash, other method types.
+
+        Deprecate verb_x methods? Or at last make them consistently
+        available both ways.
+
+        Make list methods consistent with hash_of_lists methods, in action,
+        and in name (x_verb). Also for others (e.g., set_ clear_ boolean)
+
+    *   Should default object template provide auto-create behavior on
+        ->get()?
+
+    *   Figure out how to standardize the "Generic:scalar -init_and_get"
+        interface to support memoizing values for other types.
+
+    *   Consider adding hash each and array iterator methods, using a
+        closure to provide iteration.
+
+    !   Add support for tied arrays & scalars, a la tiedhash
+
+    *   Add string_multiple_index.
+
+    *   Extend index methods to support weak indexes with WeakRef. Perhaps
+        just have it accept a hash ref to use as the index, and then allow
+        people to pass in tied hashes?
+
+    *?  Provide lvalue subs as alternative to get_set:
+
+           sub foo : lvalue { 
+               my $self = shift;
+               $self->{foo};
+           }
+
+    *?  Make private or protected method croak if they were called by a
+        method_init method which was called by an outside package.
+
+        Not entirely clear what the right semantics are here...
+
+  Template::Generic Subclasses
+
+    *   Finish building code_or_scalar meta-method.
+
+    *   Finish building Class::MakeMethods::ClassInherit subclass.
+
+        Need to work out how to capture changes for non-scalar values. For
+        example, if a subclass inherits an array accessor and then pops it,
+        do they get copy-on-write?
+
+    *   Finish building PseudoHash subclass.
+
+        Use %FIELDS rather than array of slot names.
+
+    *   Add enumerated string/number type.
+
+        Provide helper methods with map of associated values (ex $o->port =
+        80 ... $o->port_readable eq 'HTTP' ). Cf. code for earlier
+        unpublished 'lookup' method type.
+
+    *   For StructBuiltin:
+
+        Add -fatal flag to die if core func returns false / undef Add call
+        method to recall method with alternative arguments. Add -nocall flag
+        to not call core func on new.
+
+    *   Replace ClassName:static_hash_classname with Class:indexed_string.
+
+  Template Internals
+
+    *   Need to fix method-definition initialization behavior to properly
+        search up the inheritance hierarchy, so that you don't have to
+        redclare methods in each Generic subclass to get your class
+        expressions.
+
+    *   Give users a way to do meta-method code-caching in Perl library
+        hierarchy, rather than in /tmp/auto or other user-specified
+        directory..
+
+        Provide mechanism for pre-generating these at install time.
+
+        Perhaps load these via do, rather than open/read/eval?
+
+        Perhaps pre-generate expanded libs with all of the -imports
+        resolved?
+
+    !   Generate code files and load them instead.
+
+        This would be similar to Class::Classgen, except that we'd do the
+        generation at run-time the first time it was required, rather than
+        in a separate pass.
+
+        For example, given the following declaration:
+
+          package Foo::Bar;
+          Class::MakeMethods::Hash->import(-codecache=>'auto', scalar=>'foo');
+  
+        We should be able to write out the following file:
+
+          cat 'auto/Foo/Bar/methods-line-2.pl'
+          # NOTE: Generated for Foo::Bar by the Class::MakeMethods module.
+          # Changes made here will be lost when Foo::Bar is modified.
+          package Foo::Bar;
+          sub foo {
+            my $self = shift;
+            if ( scalar @_ ) {
+              $self->{'foo'} = shift();
+            }
+            $self->{'foo'}
+          }
+
+        Then on subsequent uses, we can just re-load the generated code:
+
+          require "auto/Foo/Bar/methods-line-2.pl";
+
+        To do this, we need to:
+
+        -   Provide an option to select this if desired; maybe ...
+            import('-cache' => 'auto/', ...)?
+
+        -   Figure out which directory we can/should write into.
+
+        -   Re-evaluate the textual code templates, without generating the
+            closures. Substitute in any _STATIC_ATTR_ values. Make other
+            _ATTR_ values point to some public lookup table or package
+            scalar.
+
+        -   Notice if the source file (or Class::MakeMethods modules) has
+            been updated more recently than the generated file.
+
+SEE ALSO
+    See the Class::MakeMethods manpage for an overview of the
+    method-generation framework.
+
+    See the Class::MakeMethods::Template manpage for an overview of the
+    code-generation subclass.
+
+    See the Class::MakeMethods::Template::ReadMe manpage for distribution,
+    installation, version and support information.
+
