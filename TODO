@@ -90,6 +90,9 @@ SYNOPSIS
 
   Template Internals
 
+    *   Figure out which modules, if any, should actually be using
+        AutoLoader. Probably just Template::Generic?
+
     *   Need to fix method-definition initialization behavior to properly
         search up the inheritance hierarchy, so that you don't have to
         redclare methods in each Generic subclass to get your class

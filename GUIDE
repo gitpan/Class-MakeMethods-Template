@@ -1193,12 +1193,15 @@ EXTENDING
     methods named access_p and access_q that get and set values for the hash
     keys 'p' and 'q':
 
-      Class::MakeMethods::_metamethod_definition('Hash:scalar')->
+      Class::MakeMethods::Template::Hash->named_method('scalar')->
               {'interface'}{'frozzle'} = { 'access_*'=>'get_set' };
 
       package My::Object;
       Class::MakeMethods::Template::Hash->make( 'scalar' => [ --frozzle => qw( p q ) ] );
 
+      $object->access_p('Potato');    # $object->{p} = 'Potato'
+      print $object->access_q();      # print $object->{q}
+  
     Note that this constitutes "action at a distance" and will affect
     subsequent use by other packages; unless you are "fixing" the current
     behavior, you are urged to create your own template definition which

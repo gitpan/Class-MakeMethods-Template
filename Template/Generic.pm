@@ -164,7 +164,7 @@ the existing instance.
 
 Accepts name-value pair arguments, or a reference to hash of such
 pairs, and calls the named method for each with the supplied value
-as a single argument. (See the generic method_init behavior for
+as a single argument. (See the Universal method_init behavior for
 more discussion of this pattern.)
 
 =item copy_with values
@@ -802,7 +802,7 @@ sub number {
   {
     '-import' => { 'Template::Generic:scalar' => '*' },
     'interface' => {
-      counter       => { '*'=>'get_set', '*_incr'=>'incr' },
+      counter       => { '*'=>'get_set', '*_incr'=>'incr', '*_reset'=>'clear' },
     },
     'params' => {
       'return_value_undefined' => 0,
@@ -857,7 +857,7 @@ B<Interfaces>:
 
 =item flag_set_clear (default)
 
-Provides the get_set_flag behavior for I<*>, and set_I<*> and clear_I<*> methods to set the value to true or false.  
+Provides the get_set behavior for I<*>, and set_I<*> and clear_I<*> methods to set the value to true or false.  
 
 =back
 
@@ -878,7 +878,6 @@ Sets the value to one.
 =item set_false
 
 Sets the value to zero.
-
 =back
 
 =cut
@@ -956,7 +955,7 @@ Sets the value to false.
 
 =back
 
-B<Group Methods>: The following types of methods manipulate the overall vectore value.
+B<Group Methods>: The following types of methods manipulate the overall vector value.
 
 =over 4
 

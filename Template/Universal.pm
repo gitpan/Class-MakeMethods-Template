@@ -32,6 +32,8 @@ multiple types of classes and objects.
 
 =head2 Universal:universal
 
+This is not a directly-invokable method type, but instead provides code expressions for use in other method-generators.
+
 You can use any of these features in your meta-method interfaces without explicitly importing them.
 
 B<Modifiers>
@@ -90,15 +92,15 @@ Runtime access to method parameters.
 
 =item *
 
-no_op.
+no_op -- See below.
 
 =item *
 
-croak.
+croak -- See below.
 
 =item *
 
-method_init.
+method_init -- See below.
 
 =back
 
@@ -172,7 +174,9 @@ sub universal {
 
 For each meta-method, creates a method with an empty body.
 
-  no_op => [ qw / foo bar baz / ]
+  use Class::MakeMethods::Template::Universal (
+    'no_op' => [ 'foo bar baz' ],
+  );
 
 You might want to create and use such methods to provide hooks for
 subclass activity.
@@ -199,7 +203,9 @@ sub no_op {
 
 For each meta-method, creates a method which will croak if called.
 
-  croak => [ qw / foo bar baz / ]
+  use Class::MakeMethods::Template::Universal (
+    'croak' => [ 'foo bar baz' ],
+  );
 
 This is intended to support the use of abstract methods, that must
 be overidden in a useful subclass.
@@ -265,11 +271,24 @@ reference to hash of such pairs. For each pair, the key is interpreted
 as the name of a method to call, and the value is the argument to
 be passed to that method.
 
-Example: After declaring the below method_init method, C<$self->init(
-foo=>123, bar=>456 );> is equivalent to C<$self->foo(123);
-$self->bar(456);>.
+Sample declaration and usage:
 
-  Class::MakeMethods->make( 'method_init' => [ 'init' ] );
+  package MyObject;
+  use Class::MakeMethods::Template::Universal (
+    method_init => 'init',
+  );
+  ...
+  
+  my $object = MyObject->new()
+  $object->init( foo => 'Foozle', bar => 'Barbados' );
+  
+  # Equivalent to:
+  $object->foo('Foozle');
+  $object->bar('Barbados');
+
+You might want to create and use such methods to allow easy initialization of multiple object or class parameters in a single call.
+
+B<Note>: including methods of this type will circumvent the protection of C<private> and C<protected> methods, because it an outside caller can cause an object to call specific methods on itself, bypassing the privacy protection.
 
 =cut
 

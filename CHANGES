@@ -1,9 +1,21 @@
 NAME
     Class::MakeMethods::Template::Changes - Revision history
 
-DESCRIPTION
-    Revision history for Class::MakeMethods::Template:
+SYNOPSIS
+    Revision history for Class::MakeMethods::Template.
 
-    v1.003 - 2002/01/24
-        Split Template and Emulator packages into their own distributions.
+CHANGES
+  v1.004
+
+    2002/02/07 Added missing *_reset => clear to number --counter interface.
+
+    2002/01/26 Documentation fix from Adam Spiers.
+
+  v1.003
+
+    2002/01/24 Split Template and Emulator packages into their own
+    distributions.
+
+SEE ALSO
+    the Class::MakeMethods::Template::ReadMe manpage
 

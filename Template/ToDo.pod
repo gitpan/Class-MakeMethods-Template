@@ -30,6 +30,7 @@ Template Internals: Finish documenting disk-based meta-method code-caching.
 
 =back
 
+
 =head2 Template::Generic 
 
 =over 4
@@ -146,6 +147,11 @@ Replace ClassName:static_hash_classname with Class:indexed_string.
 =head2 Template Internals
 
 =over 4
+
+=item *
+
+Figure out which modules, if any, should actually be using AutoLoader.
+Probably just Template::Generic?
 
 =item *
 

@@ -54,7 +54,7 @@ DESCRIPTION
       http://testers.cpan.org/search?request=dist&dist=Class-MakeMethods
 
 VERSION
-    This is version 1.003 of Class::MakeMethods::Template.
+    This is version 1.004 of Class::MakeMethods::Template.
 
 INSTALLATION
     You should be able to install this module using the CPAN shell

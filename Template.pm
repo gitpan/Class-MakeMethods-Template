@@ -6,7 +6,7 @@ use Carp;
 use Class::MakeMethods '-isasubclass';
 
 use vars qw( $VERSION );
-$VERSION = 1.003;
+$VERSION = 1.004;
 
 sub _diagnostic { &Class::MakeMethods::_diagnostic }
 
@@ -47,8 +47,9 @@ sub _definition {
   while ( ! ref $target ) {
     $target =~ s/\s.*//;
     
-    # If method name contains a colon, call the method on the indicated class.
-    my $call_class = ( ( $target =~ s/^(.*)\:// ) 
+    # If method name contains a colon or double colon, call the method on the
+    # indicated class.
+    my $call_class = ( ( $target =~ s/^(.*)\:{1,2}// ) 
       ? Class::MakeMethods::_find_subclass($class, $1) : $class );
     $target = $call_class->named_method( $target );
   }
@@ -1926,11 +1927,15 @@ by adding a new interface, and then uses it to create scalar accessor
 methods named access_p and access_q that get and set values for
 the hash keys 'p' and 'q':
 
-  Class::MakeMethods::_metamethod_definition('Hash:scalar')->
+  Class::MakeMethods::Template::Hash->named_method('scalar')->
 	  {'interface'}{'frozzle'} = { 'access_*'=>'get_set' };
 
   package My::Object;
   Class::MakeMethods::Template::Hash->make( 'scalar' => [ --frozzle => qw( p q ) ] );
+
+  $object->access_p('Potato');    # $object->{p} = 'Potato'
+  print $object->access_q();      # print $object->{q}
+  
 
 Note that this constitutes "action at a distance" and will affect subsequent use by other packages; unless you are "fixing" the current behavior, you are urged to create your own template definition which imports the base behavior of the existing template and overrides the information in question.
 
